@@ -1,0 +1,25 @@
+services:
+  govlayer:
+    build: .
+    image: cformer-govlayer:0.2.0
+    container_name: cformer-govlayer
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - GOVLAYER_TOKENS=${GOVLAYER_TOKENS:-}
+      - GOVLAYER_AUDIT_LOG=/app/audit/audit.jsonl
+      - GOVLAYER_AUDIT_REDACT=${GOVLAYER_AUDIT_REDACT:-0}
+      - FEISHU_APP_ID=${FEISHU_APP_ID:-}
+      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET:-}
+      - FEISHU_DOMAIN=${FEISHU_DOMAIN:-https://open.feishu.cn}
+      - FEISHU_WIKI_SPACE_ID=${FEISHU_WIKI_SPACE_ID:-}
+    volumes:
+      - ./audit:/app/audit
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

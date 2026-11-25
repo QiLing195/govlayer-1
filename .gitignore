@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment & local secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Runtime audit logs, precedents & mutable policy state
+audit/
+
+# OS & editor artifacts
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.vscode/
+.idea/
